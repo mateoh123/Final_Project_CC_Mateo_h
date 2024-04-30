@@ -1,15 +1,15 @@
 titlex = 70
 titley = 250
 story = " "
-
+hovercolorF = "#ffffff"
+hovercolorB = "#ffffff"
+hovercolorL = "#ffffff"
+hovercolorR = "#ffffff"
 
 //room values
 gameStart = false
 firstroomValue = false
 secondroomValue = false
-
-
-
 
 function setup() {
     createCanvas(700, 700)
@@ -36,37 +36,94 @@ function draw() {
         //text box
         fill("#8a8484")
         rect(0, 500, 750, 200)
+        stroke(0)
 
-        fill("#ffffff")
+
         //forward
+        fill(hovercolorF)
         rect(300, 550, 100, 40)
         //backward
+        fill(hovercolorB)
         rect(300, 620, 100, 40)
         //left
+        fill(hovercolorL)
         rect(180, 590, 100, 40)
         //right
+        fill(hovercolorR)
         rect(420, 590, 100, 40)
 
         textFont("Oswald")
         fill("#000000")
         textSize(20)
-        text("FORWARD", 303, 575)
-        text("LEFT", 205, 615)
-        text("RIGHT", 440, 615)
+        text("FORWARD", 302, 575) //forward
+        text("LEFT", 205, 615) //left
+        text("RIGHT", 440, 615) //right
         textSize(17)
-        text("BACKWARD", 302, 645)
-
-
-
+        text("BACKWARD", 301.5, 645) //backward
 
         textFont("Oswald")
         fill("#ffffff")
         textSize(30)
         text(story, 30, 540)
 
+        //BUTTON HOVER COLORS
+
+        if (mouseX > 300 && mouseX < 400 && mouseY > 550 && mouseY < 590) {
+            hovercolorF = "#d4d4d4"
+
+
+        } else {
+            hovercolorF = "#ffffff"
+
+        }
+
+        if (mouseX > 300 && mouseX < 400 && mouseY > 620 && mouseY < 660) {
+            hovercolorB = "#d4d4d4"
+
+        } else {
+            hovercolorB = "#ffffff"
+        }
+
+        if (mouseX > 180 && mouseX < 280 && mouseY > 590 && mouseY < 630) {
+            hovercolorL = "#d4d4d4"
+
+        } else {
+            hovercolorL = "#ffffff"
+        }
+
+        if (mouseX > 420 && mouseX < 520 && mouseY > 590 && mouseY < 630) {
+            hovercolorR = "#d4d4d4"
+
+        } else {
+            hovercolorR = "#ffffff"
+        }
+
+        //BUTTON CLICK BOUNDARIES
+        if (mouseIsPressed === true) {
+            //FORWARD BUTTON BOUNDARIES
+            if (mouseX > 300 && mouseX < 400 && mouseY > 550 && mouseY < 590) {
+
+
+            }
+
+            //BACKWARD BUTTON BOUNDARIES
+            if (mouseX > 300 && mouseX < 400 && mouseY > 620 && mouseY < 660) {
+
+            }
+
+            //LEFT BUTTON BOUNDARIES
+            if (mouseX > 180 && mouseX < 280 && mouseY > 590 && mouseY < 630) {
+
+            }
+
+            //RIGHT BUTTON BOUNDARIES
+            if (mouseX > 420 && mouseX < 520 && mouseY > 590 && mouseY < 630) {
+
+            }
+
+        }
+
     }
-
-
 
     //ROOM LOGIC
     if (firstroomValue) {
