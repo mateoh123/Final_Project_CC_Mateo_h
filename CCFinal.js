@@ -6,10 +6,19 @@ hovercolorB = "#ffffff"
 hovercolorL = "#ffffff"
 hovercolorR = "#ffffff"
 
-//room values
+//EVENTS VARIABLES
+gotFlashlight = false
+
+//ROOM VARIABLES
 gameStart = false
 firstroomValue = false
 secondroomValue = false
+
+function preload() {
+    flashlight = loadImage("images/a9ab94b863f3af9479650fdee9a7f553.png");
+}
+
+
 
 function setup() {
     createCanvas(700, 700)
@@ -19,6 +28,7 @@ function setup() {
     playButton.position(290, 380)
     playButton.style('font-size', '50px')
     playButton.mousePressed(firstRoom)
+
 
 }
 
@@ -30,6 +40,7 @@ function draw() {
     textFont("Lugrasimo")
     text("House Escape", titlex, titley)
     pop()
+
 
     if (gameStart) {
         noStroke()
@@ -64,10 +75,9 @@ function draw() {
         textFont("Oswald")
         fill("#ffffff")
         textSize(30)
-        text(story, 30, 540)
+        text(story, 15, 530)
 
         //BUTTON HOVER COLORS
-
         if (mouseX > 300 && mouseX < 400 && mouseY > 550 && mouseY < 590) {
             hovercolorF = "#d4d4d4"
 
@@ -102,22 +112,33 @@ function draw() {
         if (mouseIsPressed === true) {
             //FORWARD BUTTON BOUNDARIES
             if (mouseX > 300 && mouseX < 400 && mouseY > 550 && mouseY < 590) {
-
+                if (gotFlashlight != true && firstroomValue) {
+                    story = "Its too dark! I cant move forward!"
+                }
 
             }
 
             //BACKWARD BUTTON BOUNDARIES
             if (mouseX > 300 && mouseX < 400 && mouseY > 620 && mouseY < 660) {
+                if (gotFlashlight != true && firstroomValue) {
+                    story = "Theres nothing behind me..."
+                }
 
             }
 
             //LEFT BUTTON BOUNDARIES
             if (mouseX > 180 && mouseX < 280 && mouseY > 590 && mouseY < 630) {
+                if (gotFlashlight != true && firstroomValue) {
+                    story = "Its too dark! I cant move left!"
+                }
 
             }
 
             //RIGHT BUTTON BOUNDARIES
             if (mouseX > 420 && mouseX < 520 && mouseY > 590 && mouseY < 630) {
+                if (gotFlashlight != true && firstroomValue) {
+                    story = "Its too dark! I cant move right!"
+                }
 
             }
 
@@ -141,7 +162,8 @@ function firstRoom() {
     titlex = 1000
     titley = 1000
     playButton.remove()
-    story = "It's dark..."
+    story = "Where am I? Its so dark in here!"
+    image(flashlight, 500, 400, 80, 30);
 
 
 
