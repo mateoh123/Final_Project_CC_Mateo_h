@@ -2,12 +2,14 @@ titlex = 70;
 titley = 250;
 doorwithLight = 500
 firstnote = 500
+lockerroom = 500
 story = " ";
 hovercolorF = "#ffffff";
 hovercolorB = "#ffffff";
 hovercolorL = "#ffffff";
 hovercolorR = "#ffffff";
 
+//locker passcode: 528691
 
 //EVENTS VARIABLES
 gotFlashlight = false;
@@ -17,6 +19,7 @@ flashlightx = 500;
 gameStart = false;
 firstroomValue = false;
 noteroomValue = false;
+lockerroomValue = false
 
 function preload() {
     flashlight = loadImage("images/a9ab94b863f3af9479650fdee9a7f553.png");
@@ -84,8 +87,40 @@ function draw() {
         //light
         fill(242, 255, 0, 200)
         ellipse(400, 210, 400, 400)
+        pop()
 
+        //LOCKED CABINET ROOM
+        push()
+        noStroke()
+        translate(lockerroom, 0)
+        //locker
+        fill("#c4c4c4")
+        rect(240, 0, 320, 500)
 
+        //locker vents
+        fill("#878787")
+        rect(290, 40, 220, 20)
+        rect(290, 80, 220, 20)
+        rect(290, 120, 220, 20)
+
+        //locker lock
+        fill("#737373")
+        noFill(0)
+        stroke(1)
+        strokeWeight(4)
+        ellipse(490, 330, 40, 40)
+        noStroke(0)
+        fill("black")
+        rect(467, 330, 45, 40)
+
+        //locker hinge
+        noStroke(0)
+        fill("#adadad")
+        rect(480, 250, 20, 80)
+
+        //light
+        fill(242, 255, 0, 200)
+        ellipse(400, 250, 400, 400)
         pop()
 
 
@@ -154,14 +189,23 @@ function draw() {
 
 function firstRoom() {
     firstroomValue = true;
+    noteroomValue = false
+    lockerroomValue = false
     gameStart = true;
     titlex = 1000;
     titley = 1000;
+    doorwithLight = 500
+    firstnote = 1000
+    lockerroom = 500
     playButton.remove();
-    story = "Where am I? Its so dark in here!";
 
+    if (gotFlashlight) {
+        story = "What is that ahead?";
+        doorwithLight = 0
+    }
 
 }
+
 
 
 
@@ -190,8 +234,22 @@ function mousePressed() {
             story = "What is this?";
             noteroomValue = true;
             firstroomValue = false
+            lockerroomValue = false
             firstnote = 0
         }
+
+
+        if (gotFlashlight && lockerroomValue) {
+            story = "Whats ahead?"
+            doorwithlight = 0
+            lockerroom = 1000
+            firstroomValue = true
+            noteroomValue = false
+            lockerroomValue = false
+        }
+
+
+
 
     }
 
@@ -201,20 +259,31 @@ function mousePressed() {
             story = "Its too dark! I cant move right!";
         }
 
+        if (firstroomValue && gotFlashlight) {
+            noteroomValue = false;
+            firstroomValue = false;
+            lockerroomValue = true
+            story = "Is that a locked locker?";
+            lockerroom = 0
+
+        }
+
+
         if (gotFlashlight && noteroomValue) {
             story = "Whats ahead?"
             firstnote = 1000
             firstroomValue = true
             noteroomValue = false
+            lockerroomValue = false
         }
-
 
     }
 
 
 
+
     //CLICKING FLASHLIGHT
-    if (mouseX > 500 && mouseX < 580 && mouseY > 400 && mouseY < 430 && firstroomValue) {
+    if (mouseX > 500 && mouseX < 580 && mouseY > 400 && mouseY < 430 && firstroomValue && gotFlashlight != true) {
         story = "I can see now!";
         flashlightx = -100;
         doorwithLight = 0
