@@ -1,10 +1,13 @@
 titlex = 70;
 titley = 250;
+doorwithLight = 500
+firstnote = 500
 story = " ";
 hovercolorF = "#ffffff";
 hovercolorB = "#ffffff";
 hovercolorL = "#ffffff";
 hovercolorR = "#ffffff";
+
 
 //EVENTS VARIABLES
 gotFlashlight = false;
@@ -13,7 +16,7 @@ flashlightx = 500;
 //ROOM VARIABLES
 gameStart = false;
 firstroomValue = false;
-secondroomValue = false;
+noteroomValue = false;
 
 function preload() {
     flashlight = loadImage("images/a9ab94b863f3af9479650fdee9a7f553.png");
@@ -29,8 +32,8 @@ function setup() {
 }
 
 function draw() {
-    //title
     background(0);
+    //title
     push();
     fill("white");
     textSize(100);
@@ -44,6 +47,48 @@ function draw() {
         fill("#8a8484");
         rect(0, 500, 750, 200);
         stroke(0);
+
+        //DOOR WITH LIGHT
+        //door
+        push()
+        translate(doorwithLight, 0)
+        noStroke(0)
+        fill("#6e350f")
+        rect(350, 100, 100, 200)
+        fill("#223e40")
+        rect(365, 120, 70, 60)
+        fill("#000000")
+        ellipse(430, 220, 20, 20)
+
+        //light
+        fill(242, 255, 0, 200)
+        ellipse(400, 210, 400, 400)
+        pop()
+
+        //NOTE ROOM
+
+        push()
+        translate(firstnote, 0)
+        //note paper
+        fill("#ede885")
+        rect(300, 50, 200, 330)
+
+        //note words
+        fill("#000000")
+        textSize(35)
+        text("They", 350, 100)
+        text("Wont", 330, 170)
+        text("Stop", 360, 250)
+        text("EB HF IA", 320, 350)
+
+        //light
+        fill(242, 255, 0, 200)
+        ellipse(400, 210, 400, 400)
+
+
+        pop()
+
+
 
         //forward
         fill(hovercolorF);
@@ -100,27 +145,25 @@ function draw() {
 
     //ROOM LOGIC
     if (firstroomValue) {
-        secondroomValue = false;
+        noteroomValue = false;
         image(flashlight, flashlightx, 400, 80, 30);
-    } else if (secondroomValue) {
+    } else if (noteroomValue) {
         firstroomValue = false;
     }
 }
 
 function firstRoom() {
-    background(0, 0, 0);
     firstroomValue = true;
     gameStart = true;
     titlex = 1000;
     titley = 1000;
     playButton.remove();
     story = "Where am I? Its so dark in here!";
+
+
 }
 
-function secondRoom() {
-    background(150, 150, 150);
-    secondroomValue = true;
-}
+
 
 function mousePressed() {
     //FORWARD BUTTON BOUNDARIES
@@ -142,6 +185,14 @@ function mousePressed() {
         if (gotFlashlight != true && firstroomValue) {
             story = "Its too dark! I cant move left!";
         }
+
+        if (gotFlashlight && firstroomValue) {
+            story = "What is this?";
+            noteroomValue = true;
+            firstroomValue = false
+            firstnote = 0
+        }
+
     }
 
     //RIGHT BUTTON BOUNDARIES
@@ -149,11 +200,25 @@ function mousePressed() {
         if (gotFlashlight != true && firstroomValue) {
             story = "Its too dark! I cant move right!";
         }
+
+        if (gotFlashlight && noteroomValue) {
+            story = "Whats ahead?"
+            firstnote = 1000
+            firstroomValue = true
+            noteroomValue = false
+        }
+
+
     }
-    //CLICKING BUTTON
+
+
+
+    //CLICKING FLASHLIGHT
     if (mouseX > 500 && mouseX < 580 && mouseY > 400 && mouseY < 430 && firstroomValue) {
         story = "I can see now!";
         flashlightx = -100;
+        doorwithLight = 0
+        gotFlashlight = true;
     }
 
 
