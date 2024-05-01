@@ -3,6 +3,7 @@ titley = 250;
 doorwithLight = 500
 firstnote = 500
 lockerroom = 500
+lockeddoor = 500
 story = " ";
 hovercolorF = "#ffffff";
 hovercolorB = "#ffffff";
@@ -20,6 +21,7 @@ gameStart = false;
 firstroomValue = false;
 noteroomValue = false;
 lockerroomValue = false
+lockeddoorValue = false
 
 function preload() {
     flashlight = loadImage("images/a9ab94b863f3af9479650fdee9a7f553.png");
@@ -123,6 +125,36 @@ function draw() {
         ellipse(400, 250, 400, 400)
         pop()
 
+        //LOCKED DOOR ROOM
+        push()
+        translate(lockeddoor, 0)
+        noStroke()
+        //door
+        fill("#6e350f")
+        rect(240, 0, 320, 500)
+
+        //door border
+        fill("#878787")
+        rect(240, 0, 20, 520)
+        rect(540, 0, 20, 520)
+        rect(240, 0, 300, 20)
+
+        //window
+        fill("#223e40")
+        rect(295, 60, 210, 150)
+
+        //knob
+        fill("#000000")
+        ellipse(490, 300, 40, 40)
+
+
+        //light
+        fill(242, 255, 0, 200)
+        ellipse(400, 210, 400, 400)
+
+
+        pop()
+
 
 
         //forward
@@ -198,6 +230,7 @@ function firstRoom() {
     firstnote = 1000
     lockerroom = 500
     playButton.remove();
+    story = "Where am I? Why is it so dark?"
 
     if (gotFlashlight) {
         story = "What is that ahead?";
