@@ -15,6 +15,7 @@ hovercolorR = "#ffffff";
 //EVENTS VARIABLES
 gotFlashlight = false;
 flashlightx = 500;
+correctLock = false
 
 //ROOM VARIABLES
 gameStart = false;
@@ -25,6 +26,7 @@ lockeddoorValue = false
 
 function preload() {
     flashlight = loadImage("images/a9ab94b863f3af9479650fdee9a7f553.png");
+    lock = loadImage("images/Lock_PNG_Clip_Art-1406.png")
 }
 
 function setup() {
@@ -104,16 +106,6 @@ function draw() {
         rect(290, 40, 220, 20)
         rect(290, 80, 220, 20)
         rect(290, 120, 220, 20)
-
-        //locker lock
-        fill("#737373")
-        noFill(0)
-        stroke(1)
-        strokeWeight(4)
-        ellipse(490, 330, 40, 40)
-        noStroke(0)
-        fill("black")
-        rect(467, 330, 45, 40)
 
         //locker hinge
         noStroke(0)
@@ -216,7 +208,11 @@ function draw() {
         image(flashlight, flashlightx, 400, 80, 30);
     } else if (noteroomValue) {
         firstroomValue = false;
+    } else if (lockerroomValue) {
+        image(lock, 460, 305, 55, 60)
     }
+
+
 }
 
 function firstRoom() {
@@ -248,12 +244,29 @@ function mousePressed() {
         if (gotFlashlight != true && firstroomValue) {
             story = "Its too dark! I cant move forward!";
         }
+
+        if (gotFlashlight && firstroomValue) {
+            story = "Oh my gosh! Its a door! But its locked..."
+            lockeddoorValue = true
+            firstroomValue = false
+            doorwithlight = 500
+            lockeddoor = 0
+        }
     }
 
     //BACKWARD BUTTON BOUNDARIES
     if (mouseX > 300 && mouseX < 400 && mouseY > 620 && mouseY < 660) {
         if (gotFlashlight != true && firstroomValue) {
             story = "Theres nothing behind me...";
+        }
+
+        if (gotFlashlight && lockeddoorValue) {
+            story = ("whats ahead?")
+            lockeddoorValue = false
+            firstroomValue = true
+            doorwithlight = 0
+            lockeddoor = 500
+
         }
     }
 
