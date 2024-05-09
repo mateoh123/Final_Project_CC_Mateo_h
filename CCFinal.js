@@ -4,6 +4,9 @@ doorwithLight = 500
 firstnote = 500
 lockerroom = 500
 lockeddoor = 500
+lockX = 460
+comboInput = ""
+lockerDoor = 0
 story = " ";
 hovercolorF = "#ffffff";
 hovercolorB = "#ffffff";
@@ -16,6 +19,8 @@ hovercolorR = "#ffffff";
 gotFlashlight = false;
 flashlightx = 500;
 correctLock = false
+clickedLock = true
+lockSubScreen = false
 
 //ROOM VARIABLES
 gameStart = false;
@@ -36,6 +41,7 @@ function setup() {
     playButton.position(290, 380);
     playButton.style("font-size", "50px");
     playButton.mousePressed(firstRoom);
+
 }
 
 function draw() {
@@ -101,6 +107,8 @@ function draw() {
         fill("#c4c4c4")
         rect(240, 0, 320, 500)
 
+        push()
+        translate(lockerDoor, 0)
         //locker vents
         fill("#878787")
         rect(290, 40, 220, 20)
@@ -111,6 +119,7 @@ function draw() {
         noStroke(0)
         fill("#adadad")
         rect(480, 250, 20, 80)
+        pop()
 
         //light
         fill(242, 255, 0, 200)
@@ -143,9 +152,63 @@ function draw() {
         //light
         fill(242, 255, 0, 200)
         ellipse(400, 210, 400, 400)
-
-
         pop()
+
+
+
+        //LOCK SUB SCREEN
+        push()
+        if (clickedLock) {
+            fill(140, 140, 140)
+            rect(205, 100, 400, 220)
+            textSize(30)
+            fill(255, 255, 255)
+            text("Whats the Code?", 305, 140)
+            noStroke()
+            rect(220, 160, 50, 50) //1
+            rect(300, 160, 50, 50) //2
+            rect(380, 160, 50, 50) //3
+            rect(460, 160, 50, 50) //4
+            rect(540, 160, 50, 50) //5
+            rect(220, 230, 50, 50) //6
+            rect(300, 230, 50, 50) //7
+            rect(380, 230, 50, 50) //8
+            rect(460, 230, 50, 50) //9
+            rect(540, 230, 50, 50) //0
+            rect(330, 285, 60, 30) // check
+            rect(420, 285, 60, 30) // clear
+            fill(130, 0, 0)
+            rect(205, 100, 50, 50) //leave
+            fill(0, 0, 0)
+            textSize(40)
+            text("1", 235, 200)
+            text("2", 315, 200)
+            text("3", 395, 200)
+            text("4", 475, 200)
+            text("5", 555, 200)
+            text("6", 235, 270)
+            text("7", 315, 270)
+            text("8", 395, 270)
+            text("9", 475, 270)
+            text("0", 555, 270)
+            textSize(25)
+            text("clear", 335, 305)
+            text("check", 421, 305)
+            text("-----", 520, 305)
+            text("X", 220, 135)
+
+
+        }
+        pop()
+
+        //CODE INPUT
+        if (comboInput == "528691" || comboInput == "52 86 91") {
+            story = "It worked!"
+            lockX = 10000
+            lockerDoor = 1000
+        }
+
+
 
 
 
@@ -209,7 +272,7 @@ function draw() {
     } else if (noteroomValue) {
         firstroomValue = false;
     } else if (lockerroomValue) {
-        image(lock, 460, 305, 55, 60)
+        image(lock, lockX, 305, 55, 60)
     }
 
 
@@ -234,6 +297,11 @@ function firstRoom() {
     }
 
 }
+
+function isItCorrect() {
+    comboInput = lockcombo.value()
+}
+
 
 
 
@@ -336,5 +404,18 @@ function mousePressed() {
         gotFlashlight = true;
     }
 
+    //CLICKING THE LOCK
+    if (mouseX > 460 && mouseX < 515 && mouseY > 305 && mouseY < 365) {
+        fill("#ffd257")
+        clickedLock = true
 
+    }
+
+    //EXITING LOCK SUBSCREEN
+    if (mouseX > 200 && mouseX < 230 && mouseY > 200 && mouseY < 230) {
+        if (clickedLock && lockSubScreen) {
+            lockSubScreen = false
+            clickedLock = false
+        }
+    }
 }
