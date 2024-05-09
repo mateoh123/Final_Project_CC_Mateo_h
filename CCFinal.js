@@ -8,6 +8,8 @@ lockX = 460;
 comboInput = "";
 lockerDoor = 0;
 story = " ";
+buttonX = 1000
+doorX = 0
 hovercolorF = "#ffffff";
 hovercolorB = "#ffffff";
 hovercolorL = "#ffffff";
@@ -22,6 +24,7 @@ flashlightx = 500;
 correctLock = false;
 clickedLock = false;
 lockSubScreen = false;
+buttonPushed = false
 
 //ROOM VARIABLES
 gameStart = false;
@@ -104,6 +107,7 @@ function draw() {
         ellipse(400, 210, 400, 400);
         pop();
 
+
         //LOCKED CABINET ROOM
         push();
         noStroke();
@@ -111,6 +115,8 @@ function draw() {
         //locker
         fill("#c4c4c4");
         rect(240, 0, 320, 500);
+        fill(255, 18, 18)
+        ellipse(buttonX, 300, 80, 80)
 
         push();
         translate(lockerDoor, 0);
@@ -119,6 +125,8 @@ function draw() {
         rect(290, 40, 220, 20);
         rect(290, 80, 220, 20);
         rect(290, 120, 220, 20);
+
+
 
         //locker hinge
         noStroke(0);
@@ -135,15 +143,19 @@ function draw() {
         push();
         translate(lockeddoor, 0);
         noStroke();
-        //door
-        fill("#6e350f");
-        rect(240, 0, 320, 500);
 
         //door border
         fill("#878787");
         rect(240, 0, 20, 520);
         rect(540, 0, 20, 520);
         rect(240, 0, 300, 20);
+
+        push()
+        translate(doorX, 0)
+        //door
+        fill("#6e350f");
+        rect(240, 0, 320, 500);
+
 
         //window
         fill("#223e40");
@@ -152,6 +164,7 @@ function draw() {
         //knob
         fill("#000000");
         ellipse(490, 300, 40, 40);
+        pop()
 
         //light
         fill(242, 255, 0, 200);
@@ -468,8 +481,18 @@ function mousePressed() {
                     correctLock = true;
                     clickedLock = false;
                     story = "I opened it!";
+                    lockerDoor = 1000
+                    buttonX = 400
+
                 }
             }
+        }
+    }
+    if (correctLock) {
+        if (mouseX > 400 && mouseX < 480 && mouseY > 300 && mouseY < 380) {
+            buttonPushed = true
+            story = "I wonder what that button did..."
+            doorX = 1000
         }
     }
 }
