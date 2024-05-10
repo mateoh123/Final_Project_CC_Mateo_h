@@ -10,11 +10,15 @@ lockerDoor = 0;
 story = " ";
 buttonX = 1000
 doorX = 0
+doorDoor = 0
 hovercolorF = "#ffffff";
 hovercolorB = "#ffffff";
 hovercolorL = "#ffffff";
 hovercolorR = "#ffffff";
+BC = "#000000"
 lockText = "----";
+finalScreen = 0
+titleWords = "House Escape"
 
 //locker passcode: 528691
 
@@ -52,21 +56,23 @@ function setup() {
 }
 
 function draw() {
-    background(0);
-    console.log(lockArray);
+    background(BC);
     //title
     push();
     fill("white");
     textSize(100);
     textFont("Lugrasimo");
-    text("House Escape", titlex, titley);
+    text(titleWords, titlex, titley);
     pop();
 
     if (gameStart) {
+        push()
+        translate(finalScreen, 0)
         noStroke();
         //text box
         fill("#8a8484");
         rect(0, 500, 750, 200);
+        pop()
         stroke(0);
 
         //DOOR WITH LIGHT
@@ -74,16 +80,26 @@ function draw() {
         push();
         translate(doorwithLight, 0);
         noStroke(0);
+        //door border
+        fill(171, 171, 171);
+        rect(350, 100, 100, 200);
+        fill(0, 0, 0)
+        rect(360, 110, 80, 230);
+        //door door
+        push()
+        translate(doorDoor, 0)
         fill("#6e350f");
         rect(350, 100, 100, 200);
         fill("#223e40");
         rect(365, 120, 70, 60);
         fill("#000000");
         ellipse(430, 220, 20, 20);
+        pop()
 
         //light
         fill(242, 255, 0, 200);
         ellipse(400, 210, 400, 400);
+
         pop();
 
         //NOTE ROOM
@@ -215,6 +231,8 @@ function draw() {
         }
         pop();
 
+        push()
+        translate(finalScreen, 0)
         //forward
         fill(hovercolorF);
         rect(300, 550, 100, 40);
@@ -241,6 +259,7 @@ function draw() {
         fill("#ffffff");
         textSize(30);
         text(story, 15, 530);
+        pop()
 
         //BUTTON HOVER COLORS
         if (mouseX > 300 && mouseX < 400 && mouseY > 550 && mouseY < 590) {
@@ -309,13 +328,36 @@ function mousePressed() {
             story = "Its too dark! I cant move forward!";
         }
 
-        if (gotFlashlight && firstroomValue) {
+        if (gotFlashlight && firstroomValue && buttonPushed != true) {
             story = "Oh my gosh! Its a door! But its locked...";
             lockeddoorValue = true;
             firstroomValue = false;
-            doorwithlight = 500;
+            doorwithLight = 500;
             lockeddoor = 0;
         }
+
+        if (gotFlashlight && firstroomValue && buttonPushed) {
+            story = "The Door Opened! I did it!"
+            lockeddoorValue = true
+            firstroomValue = false
+            doorwithLight = 500
+            lockeddoor = 0
+        }
+
+        if (gotFlashlight && lockeddoorValue && buttonPushed) {
+            story = " "
+            lockeddoorValue = false
+            firstroomValue = false
+            doorwithLight = 500
+            lockeddoor = 500
+            finalScreen = 10000
+            BC = "#828285"
+            titleWords = "!You Win!"
+            titlex = 150;
+            titley = 400;
+        }
+
+
     }
 
     //BACKWARD BUTTON BOUNDARIES
@@ -493,6 +535,7 @@ function mousePressed() {
             buttonPushed = true
             story = "I wonder what that button did..."
             doorX = 1000
+            doorDoor = 1000
         }
     }
 }
