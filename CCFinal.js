@@ -132,7 +132,7 @@ function draw() {
         fill("#c4c4c4");
         rect(240, 0, 320, 500);
         fill(255, 18, 18)
-        ellipse(buttonX, 300, 80, 80)
+        rect(buttonX, 300, 80, 80)
 
         push();
         translate(lockerDoor, 0);
@@ -294,7 +294,7 @@ function draw() {
     } else if (noteroomValue) {
         firstroomValue = false;
     } else if (lockerroomValue) {
-        image(lock, lockX, 305, 55, 60);
+        image(lock, lockX, 325, 50, 60);
     }
 }
 
@@ -310,15 +310,6 @@ function firstRoom() {
     lockerroom = 500;
     playButton.remove();
     story = "Where am I? Why is it so dark?";
-
-    if (gotFlashlight) {
-        story = "What is that ahead?";
-        doorwithLight = 0;
-    }
-}
-
-function isItCorrect() {
-    comboInput = lockcombo.value();
 }
 
 function mousePressed() {
@@ -346,8 +337,6 @@ function mousePressed() {
 
         if (gotFlashlight && lockeddoorValue && buttonPushed) {
             story = " "
-            lockeddoorValue = false
-            firstroomValue = false
             doorwithLight = 500
             lockeddoor = 500
             finalScreen = 10000
@@ -370,7 +359,7 @@ function mousePressed() {
             story = "whats ahead?";
             lockeddoorValue = false;
             firstroomValue = true;
-            doorwithlight = 0;
+            doorwithLight = 0;
             lockeddoor = 500;
         }
     }
@@ -411,7 +400,9 @@ function mousePressed() {
             lockerroomValue = true;
             story = "Is that a locked locker?";
             lockerroom = 0;
-        } else {
+        }
+
+        if (firstroomValue && gotFlashlight && correctLock) {
             noteroomValue = false;
             firstroomValue = false;
             lockerroomValue = true;
@@ -444,7 +435,7 @@ function mousePressed() {
     }
 
     //CLICKING THE LOCK
-    if (mouseX > 460 && mouseX < 515 && mouseY > 305 && mouseY < 365) {
+    if (mouseX > 460 && mouseX < 515 && mouseY > 325 && mouseY < 385 && correctLock != true) {
         fill("#ffd257");
         clickedLock = true;
     }
